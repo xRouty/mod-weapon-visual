@@ -199,7 +199,11 @@ public:
 class player_visualweapon : public PlayerScript
 {
 public:
-    player_visualweapon() : PlayerScript("player_visualweapons") {}
+    player_visualweapon() : PlayerScript("player_visualweapons")
+    {
+        // Delete unused rows from DB table
+        CharacterDatabase.DirectExecute("DELETE FROM custom_item_enchant_visuals WHERE NOT EXISTS(SELECT 1 FROM item_instance WHERE custom_item_enchant_visuals.iguid = item_instance.guid)");
+    }
 
     void GetVisual(Player* player)
     {
@@ -214,12 +218,6 @@ public:
         if (!result)
             return;
 
-        // Lets loop to check item by pos
-        for (int i = EQUIPMENT_SLOT_MAINHAND; i < EQUIPMENT_SLOT_OFFHAND; ++i)
-        {
-            pItem = player->GetItemByPos(255, i);
-        }
-
         // Now we have query the DB we need to get the fields.
         do
         {
@@ -227,12 +225,16 @@ public:
             uint32 iguid = fields[0].GetUInt32();
             uint32 visual = fields[1].GetUInt32();
 
-            // Lets make sure our item guid matches the guid in the DB
-            if (pItem->GetGUIDLow() == iguid)
+            // Lets loop to check item by pos
+            for (int i = EQUIPMENT_SLOT_MAINHAND; i <= EQUIPMENT_SLOT_OFFHAND; ++i)
             {
-                player->SetUInt16Value(PLAYER_VISIBLE_ITEM_1_ENCHANTMENT + (pItem->GetSlot() * 2), 0, visual);
-            }
+                pItem = player->GetItemByPos(255, i);
 
+                if (pItem && pItem->GetGUIDLow() == iguid)
+                {
+                    player->SetUInt16Value(PLAYER_VISIBLE_ITEM_1_ENCHANTMENT + (pItem->GetSlot() * 2), 0, visual);
+                }
+            }
         } while (result->NextRow());
     }
 
