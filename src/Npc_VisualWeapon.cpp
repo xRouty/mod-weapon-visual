@@ -120,21 +120,18 @@ public:
         }
 
         const ItemTemplate* itemTemplate = item->GetTemplate();
+        if (itemTemplate->Class != ITEM_CLASS_WEAPON)
+            return;
 
-        if (itemTemplate->SubClass == ITEM_SUBCLASS_ARMOR_SHIELD ||
-            itemTemplate->SubClass == ITEM_SUBCLASS_ARMOR_BUCKLER ||
-            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_SPEAR ||
-            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_BOW ||
+        if (itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_BOW ||
             itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_GUN ||
             itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_obsolete ||
-            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_EXOTIC ||
-            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_EXOTIC2 ||
-            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_MISC ||
+            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_FIST ||
             itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_THROWN ||
+            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_SPEAR ||
             itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_CROSSBOW ||
             itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_WAND ||
-            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_FISHING_POLE ||
-            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_obsolete)
+            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_FISHING_POLE)
             return;
 
         player->SetUInt16Value(PLAYER_VISIBLE_ITEM_1_ENCHANTMENT + (item->GetSlot() * 2), 0, visual);
