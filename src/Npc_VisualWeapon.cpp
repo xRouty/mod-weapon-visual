@@ -115,7 +115,7 @@ public:
 
         if (!item)
         {
-            ChatHandler(player->GetSession()).PSendSysMessage("No equipped item available to change the Visual.");
+            ChatHandler(player->GetSession()).PSendSysMessage("No equipped item available to change the visual effect.");
             return;
         }
 
@@ -126,7 +126,6 @@ public:
         if (itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_BOW ||
             itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_GUN ||
             itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_obsolete ||
-            itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_FIST ||
             itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_THROWN ||
             itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_SPEAR ||
             itemTemplate->SubClass == ITEM_SUBCLASS_WEAPON_CROSSBOW ||
